@@ -14,6 +14,7 @@ export class MessageButton {
     public getButtonByCustomId(customId: String): ButtonComponent;
     public editMessage(channelId: String, messageId: String, content: String, buttons: ButtonComponent[], embed: MessageEmbed);
     public deleteMessage(channelId: String, messageId: String);
+    public interactionResponse(interaction: any);
     public getButtons(interaction: any): ButtonComponent[];
 
 }
