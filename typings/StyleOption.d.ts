@@ -1,0 +1,1 @@
+export type StyleOption = "primary" | "secondary" | "success" | "danger" | "link";

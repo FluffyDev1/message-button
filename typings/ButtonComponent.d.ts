@@ -1,5 +1,6 @@
-import MessageButton from "../src/MessageButton";
-import { EmojiBtn, StyleOption } from '../src/ButtonComponent';
+import { MessageButton } from "./MessageButton";
+import { EmojiBtn } from './EmojiBtn';
+import { StyleOption } from './StyleOption';
 
 export class ButtonComponent {
 
