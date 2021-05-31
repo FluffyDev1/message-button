@@ -35,6 +35,17 @@ client.on('message', (message) => {
                     let user = messageButton.client.users.cache.get(interaction.member.user.id);
                     user.send('Hello from message-button!');
                 }
+            );
+            
+            /* Link Button */
+            new ButtonComponent(
+                null,
+                'Link to Discord.com',
+                'secondary',
+                null,
+                "https://discord.com",
+                false,
+                function(){}
             )
         )
 
