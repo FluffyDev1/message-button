@@ -13,6 +13,7 @@ const ButtonComponent_1 = require("./ButtonComponent");
 const fetch = require("node-fetch");
 const discord_js_1 = require("discord.js");
 const fs = require("fs");
+const { default: ButtonComponent } = require("./ButtonComponent");
 class MessageButton {
     constructor(client, saveCache = false, saveTo = '') {
         this.client = client;
@@ -59,7 +60,6 @@ class MessageButton {
                     s = 5;
                 if (a.style == 'link' && a.customId) {
                     throw Error('Link Buttons can\'t have ids!');
-                    return;
                 }
                 ;
                 let arr = {
@@ -91,25 +91,50 @@ class MessageButton {
                 }
                 return arr;
             });
-            yield fetch(`https://discord.com/api/v9/channels/${channelId}/messages`, {
+            let bodyJSON = {
+                'content': message
+            };
+            if(components.length != 0) bodyJSON['components'] =  [
+                {
+                    type: 1,
+                    components: formattedComponents
+                }
+            ];
+            let res = yield fetch(`https://discord.com/api/v9/channels/${channelId}/messages`, {
                 method: 'POST',
                 headers: {
                     'authorization': 'Bot ' + this.client.token,
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify({
-                    'content': message,
-                    'components': [
-                        {
-                            type: 1,
-                            components: formattedComponents
-                        }
-                    ]
-                })
+                body: JSON.stringify(bodyJSON)
             });
+            let resp = yield res.json();
+            if(resp.message) {
+
+                if(resp.message.includes('rate limited')) {
+                    let wait = require('util').promisify(setTimeout);
+                    yield wait((resp.retry_after + 0.100) * 1000);
+                    yield fetch(`https://discord.com/api/v9/channels/${channelId}/messages`, {
+                        method: 'POST',
+                        headers: {
+                            'authorization': 'Bot ' + this.client.token,
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(bodyJSON)
+                    });
+                }
+
+            }
         });
     }
+
+    /**
+     * 
+     * @param {String} customId 
+     * @returns {ButtonComponent}
+     */
     getButtonByCustomId(customId) {
         let btn = this.cache.get(customId);
         return btn;
@@ -140,9 +165,7 @@ class MessageButton {
                     s = 5;
                 if (a.style == 'link' && a.customId) {
                     throw Error('Link Buttons can\'t have ids!');
-                    return;
                 }
-                ;
                 let arr = {
                     type: 2,
                     label: a.name,
@@ -191,7 +214,7 @@ class MessageButton {
                     'authorization': 'Bot ' + this.client.token
                 },
                 body: JSON.stringify(body)
-            }).then(r => r.json()).then(console.log);
+            });
         });
     }
     deleteMessage(channelId, messageId) {
