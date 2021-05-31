@@ -12,7 +12,7 @@ export class MessageButton {
     public getButtonFromJSON(b: any);
     public call(channelId, message: String, ...components: ButtonComponent[]);
     public getButtonByCustomId(customId: String): ButtonComponent;
-    public editMessage(channelId: String, messageId: String, content: String, ...buttons: ButtonComponent[]);
+    public editMessage(channelId: String, messageId: String, content: String, buttons: ButtonComponent[]);
     public deleteMessage(channelId: String, messageId: String);
 
 }
