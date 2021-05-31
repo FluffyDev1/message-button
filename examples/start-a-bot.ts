@@ -26,15 +26,21 @@ client.on('message', (message) => {
                 'test_message_button',
                 null,
                 false,
-                /**
-                 * 
-                 * @param {MessageButton} messageButton 
-                 * @param {any} interaction 
-                 */
-                function(messageButton, interaction) {
+                function(messageButton: MessageButton, interaction) {
                     let user = messageButton.client.users.cache.get(interaction.member.user.id);
                     user.send('Hello from message-button!');
                 }
+            )
+            
+            /* Link Button */
+            new ButtonComponent(
+                null,
+                'Link to Discord.com',
+                'secondary',
+                null,
+                "https://discord.com",
+                false,
+                function(){}
             )
         )
 
