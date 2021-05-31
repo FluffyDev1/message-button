@@ -206,9 +206,6 @@ class MessageButton {
                 ];
             }
             if(embed) body['embed'] = embed.toJSON();
-            else {
-                body['components'] = [];
-            }
             fetch(`https://discord.com/api/v9/channels/${channelId}/messages/${messageId}`, {
                 method: 'PATCH',
                 headers: {
