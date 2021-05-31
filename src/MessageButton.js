@@ -37,7 +37,7 @@ class MessageButton {
     getButtonFromJSON(b) {
         return new ButtonComponent_1.default(b.emoji, b.name, b.style, b.customId, b.link, b.disabled, eval(`(${b.callback})`));
     }
-    call(channelId = '', message, ...components) {
+    call(channelId = '', message, components, embed) {
         return __awaiter(this, void 0, void 0, function* () {
             let formattedComponents = components.map(a => {
                 a.messageBtn = this;
@@ -92,14 +92,15 @@ class MessageButton {
                 return arr;
             });
             let bodyJSON = {
-                'content': message
             };
+	    if(message != '') bodyJSON['content'] = message;
             if(components.length != 0) bodyJSON['components'] =  [
                 {
                     type: 1,
                     components: formattedComponents
                 }
             ];
+            if(embed) bodyJSON['embed'] = embed.toJSON();
             let res = yield fetch(`https://discord.com/api/v9/channels/${channelId}/messages`, {
                 method: 'POST',
                 headers: {
@@ -139,7 +140,7 @@ class MessageButton {
         let btn = this.cache.get(customId);
         return btn;
     }
-    editMessage(channelId, messageId, content, ...buttons) {
+    editMessage(channelId, messageId, content, buttons, embed) {
         return __awaiter(this, void 0, void 0, function* () {
             let body = {};
             if (content)
@@ -204,6 +205,7 @@ class MessageButton {
                     }
                 ];
             }
+            if(embed) body['embed'] = embed.toJSON();
             else {
                 body['components'] = [];
             }
