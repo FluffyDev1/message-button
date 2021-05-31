@@ -12,7 +12,7 @@ export class ButtonComponent {
     public link: String;
     public callback: Function;
     public disabled: Boolean;
-    constructor(emoji: EmojiBtn, name: String, style: StyleOption, customId: String, link: String, disabled: Boolean = false, listen: Function);
+    constructor(emoji: EmojiBtn, name: String, style: StyleOption, customId: String, link: String, disabled: Boolean, listen: Function);
 
     toJSON(): any;
     listen(interaction: any);
