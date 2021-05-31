@@ -255,5 +255,31 @@ class MessageButton {
             button.listen(interaction);
         }
     }
+
+    /**
+     * @returns {ButtonComponent[]}
+     */
+    getButtons(interaction) {
+
+        let data = interaction.data;
+        if(data) {
+            let message = data.message;
+            if(message) {
+
+                let components = message.components;
+                if(components) {
+
+                    let buttonsInteraction = components[0].components;
+                    let buttons = buttonsInteraction.map(a => {
+                        return this.getButtonByCustomId(a.custom_id);
+                    });
+                    return buttons;
+
+                }
+                
+            }
+        }
+
+    }
 }
 exports.default = MessageButton;
