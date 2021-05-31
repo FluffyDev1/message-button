@@ -1,5 +1,5 @@
 import { Client, Collection } from "discord.js";
-import ButtonComponent from "./ButtonComponent";
+import { ButtonComponent } from ".";
 
 export class MessageButton {
 
@@ -11,7 +11,7 @@ export class MessageButton {
 
     public getButtonFromJSON(b: any);
     public call(channelId, message: String, ...components: ButtonComponent[]);
-    public getButtonByCustomId(customId: String);
+    public getButtonByCustomId(customId: String): ButtonComponent;
     public editMessage(channelId: String, messageId: String, content: String, ...buttons: ButtonComponent[]);
     public deleteMessage(channelId: String, messageId: String);
 
