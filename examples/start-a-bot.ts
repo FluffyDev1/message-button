@@ -73,6 +73,7 @@ client.on('message', (message) => {
                         let btn = buttons.getButtonByCustomId(interaction.data.custom_id);
                         btn.disabled = true;
                         btn.name = 'Tested Edit';
+                        btn.style = 'success';
                         buttons.editMessage(
                             interaction.message.channel_id,
                             interaction.message.id,
